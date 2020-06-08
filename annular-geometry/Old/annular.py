@@ -7,15 +7,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Basic Parameters ----------------------------------------------------------------------------------------------------|
-k = 0.002
-h = 1 / 25.
+k = 0.001
+h = 1 / 50.
 T = 35.0
 
 imageLog = False # if True, shows some figure
 saveFigures = False #if True, saves pdfs of all figures
 
 
-# Helper Functions ----------------------------------------------------------------------------------------------------|
+# Functions -----------------------------------------------------------------------------------------------------------|
 def minmod(a, b):
     """ One of the slope-limiting options used in the high resolution
     correction.  This one is known to be pretty diffusive.
@@ -122,64 +122,28 @@ def flux(uL, uR, UL, UR):
     return F
 
 
-def frequency(array, timeStep):
-    """
-    Calculate Frequency of Oscillator
-
-    Estimates frequency from crossings of n = 1 (because oscillator is
-    centered on n = 1)
-
-    Parameters
-    ----------
-    array - 1D thing oscillating around the value "1.0"
-    timeStep - 1 / (sampling rate), or the time step of the thing
-
-    Returns
-    ----------
-    freq - the calculated frequency
-    """
-    new = array[len(array) // 2 :]
-    indices = []
-    for i in range(len(new) - 1):
-        if new[i+1] > 1.01 and new[i] < 1.01:
-            indices.append(i)
-    if len(indices) >= 2:
-        freq = 1. / (timeStep * (indices[1] - indices[0]))
-    else:
-        freq = 0
-    return freq
-
 # *** SELECT WHICH SLOPE LIMITER ***
 slopeLimiter = minmod
+mendlParameters = (0.14,0.01,0.04)
 
-# Run Simulation ------------------------------------------------------------------------------------------------------|
-def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
-    """
-    Run the Simulation
-
-    Parameters
-    ----------
-    ratio - ratio of (R2 - R1) / R1
-    v0, eta, gamma - dimensionless simulation parameters
-
-    Returns:
-    ----------
-    n_array, J_array - arrays of simulation results, time on axis 0, space on
-    axis 1
-    """
-
+# *** Function to run simulation at given ratio, v0, eta, gamma ***
+def simulation(ratio, v0, eta, gamma):
     # *** PARAMETERS FOR POLAR GEOMETRY ***
-    # We keep the separation constant and use the ratio defined below to
-    # calculate new values for rMin and rMax
+    # We keep the separation constant and use the ratio defined below to calculate
+    # new values for rMin and rMax
+    # Ratio of ring separation to inner radius.
     sep = 1.0
     rMin = sep / ratio
-    R1 = rMin
-    R2 = sep + R1
     r = np.arange(rMin, rMin + sep, h)
     tau = np.arange(0., T, k)
 
     #like to do computations at midpoints for finite volume methods
     rMid = r[:-1] + h / 2.
+
+    # *** SIMULATION PARAMETERS ***
+    v0 = 0.14 # [] dimensionless velocity
+    eta = 0.01 # [] dimensionless viscosity
+    gamma = 0.04 # [] dimensionless momentum relaxation rate
 
     n0 = 1. + 0.1 * np.sin((rMid-rMin)*np.pi)
     J0 = v0 * (1. + 0.2 * np.cos(np.pi*(rMid - rMin) / 2))
@@ -199,11 +163,11 @@ def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
         # dt / 2
         u = np.copy(np.array([
             u[:,0] + (-u[:,1] / rMid) * k/2,
-            u[:,1] + k/2 * gamma * (R2 / rMid * u[:,0]*v0 - u[:,1]) + k/2*(-u[:,1]**2/u[:,0]/rMid)
+            u[:,1] + k/2 * gamma * (u[:,0]*v0 - u[:,1]) + k/2*(-u[:,1]**2/u[:,0]/rMid)
         ]).T)
 
         # Now impose boundary conditions on left and right!
-        uLeft = np.array([[1., u[1][1]], [1., u[0][1]]])
+        uLeft = np.array([[1., u[1][1]], [1., u[1][1]]])
         uRight = np.array([[2 * u[-1][0] - u[-2][0], v0], [u[-1, 0], v0]])
         uBC = np.vstack((uLeft, u, uRight))
         U = np.copy(u)
@@ -221,7 +185,7 @@ def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
             # Approximate the dissipative term by a finite differences quotient (2nd order)
             dissipative = k * np.array([
                 0,
-                eta * 1 / h ** 2 * (q[j + 1] - 2 * q[j] + q[j - 1]) + eta * 1/rMid[j - 2] * 1/h * (q[j + 1] - q[j])
+                eta * 1 / h ** 2 * (q[j + 1] - 2 * q[j] + q[j - 1]) + eta * 1/rMid[j - 2] * 1/h * (q[j] - q[j - 1])
             ])
 
             # Update each element of physical domain
@@ -230,7 +194,7 @@ def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
         # Second step of Strang Splitting, same integration
         U = np.copy(np.array([
             U[:,0] + (-U[:,1] / rMid) * k/2,
-            U[:,1] + k/2*gamma * (R2 / rMid * U[:,0]*v0 - U[:,1]) + k/2*(-U[:,1]**2/U[:,0]/rMid)
+            U[:,1] + k/2*gamma * (U[:,0]*v0 - U[:,1]) + k/2*(-U[:,1]**2/U[:,0]/rMid)
         ]).T)
 
         # send to the storage lists
@@ -239,9 +203,9 @@ def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
         u = np.copy(U)
 
         # Log Progress
-        if N % 1000 == 0:
+        if N % 500 == 0:
             print("Time is {:.3f} out of {:.3f} - - - - Iteration {}".format(t, T, N))
-        if N % 2000 == 0 and imageLog:
+        if N % 1000 == 0 and imageLog:
             fig, axes = plt.subplots(1, 2)
             ax1, ax2 = axes
             ax1.plot([l[-1] for l in n_list])
@@ -251,7 +215,23 @@ def simulation(ratio = 0.0, v0 = 0.0, eta=0.0, gamma=0.0):
             plt.show()
         N += 1
 
-    return np.array(n_list), np.array(J_list)
+    # Save some data
+    np.savetxt("Data/dsAnnular-n-{:.3f}.txt".format(ratio), np.array(n_list))
+    np.savetxt("Data/dsAnnular-J-{:.3f}.txt".format(ratio), np.array(J_list))
+
+# Run -----------------------------------------------------------------------------------------------------------------|
+ratios = [0.300, 0.600, 0.900, 1.200, 1.500, 1.800, 2.100, 2.400, 2.700, 3.000]
+for ratio in ratios:
+    print("Working on ratio: {:.3f}".format(ratio))
+    simulation(ratio, *mendlParameters)
+
+
+
+
+
+
+
+
 
 
 
