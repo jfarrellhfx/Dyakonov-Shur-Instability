@@ -1,0 +1,162 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks]{hyperref}
+\usepackage{subcaption}
+\captionsetup{font=footnotesize}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{newtxtext, newtxmath}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+\usepackage[export]{adjustbox}
+
+\title{Estimating the Frequency of Quasinormal Modes}
+\author{Jack Farrell}
+
+\begin{document}
+	\maketitle
+	We're studying the equations
+	
+	\begin{equation}
+	\label{eq:mainEquation}
+	\begin{aligned}[c]
+	\pdv{J}{t} + \pdv{r}\left(\frac{J^2}{n} + v_s^2 n \right) -\frac{\eta}{m} \left(\pdv[2]{r} + \frac{1}{r}\pdv{r}\right)\frac{J}{n} = \gamma (J_0 - J) - \frac{J^2}{n} \frac{1}{r},  \\
+	\pdv{n}{t} + \pdv{J}{r} = -\frac{J}{r}. \\
+	\end{aligned}
+	\end{equation}
+	
+	We are going to try to linearize these by writing $n = n_0 + n_1 e^{-\mathrm{i} \omega t}$ and $J = J_0 + J_1 e^{-\mathrm{i} \omega t}$.  We'll also git rid of any terms quadratic in any of the parameters $\eta$, $\gamma$, and $v_0$. So we'll only get the frequency $\omega$ accurately to that same order. We are also going to be working in the limit of very low ratio $\mathcal{R} \equiv (R_2 - R_1) / R_1 \equiv L / R_1$.  This makes applying the boundary conditions a little more tractable.  Note that $J_1$ and $n_1$ have no time dependence, and that $n_0$ and $J_0$ satisfy the equation in its steady state.  Expanding everything in the first equation gives:
+	
+	\begin{align*}
+	-\mathrm{i}\omega J_1 e^{-\mathrm{i}\omega t} + \pdv{r}\left(\left(\frac{1}{n_0} - \frac{n_1e^{-\mathrm{i}\omega t}}{n_0^2}\right) \left(J_0^2 + 2 J_0J_1e^{-\mathrm{i}\omega t}\right) + v_s^2 (n_0 + n_1e^{-\mathrm{i}\omega t})\right)\\\nonumber - \frac{\eta}{m}\laplacian \left(\left( \frac{1}{n_0}  -  \frac{n_1e^{-\mathrm{i}\omega t}}{n_0^2}\right)\left(J_0 + J_1e^{-\mathrm{i}\omega t} \right) \right) = -\gamma (J_1e^{-\mathrm{i}\omega t})  \\\nonumber- \frac{1}{r}\left(\frac{1}{n_0} - \frac{n_1e^{-\mathrm{i}\omega t}}{n_0^2}\right) \left(J_0^2 + 2 J_0J_1e^{-\mathrm{i}\omega t}\right) \\\nonumber
+	\end{align*}
+	
+	where I set $\laplacian \equiv \pdv[2]{r} + \frac{1}{r}\pdv{r}$.  Then, we can cancel out the steady state solutions and get rid of the exponential factors and throw away the terms that have too high an order in $n_1$ and $J_1$, and then later get rid of terms that are quadratic in the parameters like $v_0$ as well:
+	
+	\begin{align*}
+	&-\mathrm{i}\omega J_1 + \pdv{r} \left( \frac{2 J_0 J_1}{n_0} +\frac{ J_0^2n_1}{n_0^2} + v_s^2 n_1 \right) - \frac{\eta}{m} \laplacian\left(\frac{J_1}{n_0} - \frac{J_0n_1}{n_0^2} \right) = -\gamma J - \frac{1}{r} \left( \frac{2 J_0 J_1}{n_0} +\frac{ J_0^2n_1}{n_0^2}\right) \\
+	&\implies -i\omega J_1 + \pdv{r}\left(\frac{2J_0J_1}{n_0} + v_s^2n_1\right) - \frac{\eta}{m}\laplacian\frac{J_1}{n_0} = -\gamma J - \frac{1}{r}\left(\frac{2J_0J_1}{n_0} \right). \\
+	\end{align*}
+	Now, from the second equation in Equations (\ref{eq:mainEquation}), we can see that:
+	\begin{align*}
+	-\mathrm{i} \omega n_1 + \pdv{r}J &= -\frac{J}{r} \\
+	\implies n_1 &= \frac{1}{\mathrm{i}\omega} \left( \pdv{J}{r} + \frac{J}{r} \right).
+	\end{align*}
+	So, we substitute that in to the above:
+	\[-i\omega J_1 + \pdv{r}\left(\frac{2J_0J_1}{n_0} +v_s^2\left(\frac{1}{\mathrm{i}\omega} \left( \pdv{r} + \frac{J}{r} \right) \right) \right) - \frac{\eta}{m}\laplacian\frac{J_1}{n_0} = -\gamma J_1 - \frac{1}{r}\left(\frac{2J_0J_1}{n_0} \right), \]
+	which means: 
+	\[\omega^2 J_1 +  \pdv{r}\left(\mathrm{i}\omega\frac{2J_0J_1}{n_0} +  v_s^2\left(\pdv{J}{r}+\frac{J}{r}\right) \right) - \mathrm{i}\omega\frac{\eta}{m} \laplacian\frac{J_1}{n_0} = - \mathrm{i}\omega \gamma J_1 - \frac{\mathrm{i}\omega}{r} \left( \frac{2J_0J_1}{n_0}\right). \]
+	At this point, we're going to try and write the real and imaginary parts of the equation by writing $\omega = \omega_1 + \mathrm{i}\omega_2$.  That gives the following real and imaginary parts:
+	\begin{equation}
+	\label{eq:realPart}
+	(\omega_1^2 - \omega_2^2)J_1-\omega_2\pdv{r}(\frac{2J_0J_1}{n_0}) + v_s^2 \pdv{r}\left( \pdv{J_1}{r} + \frac{J_1}{r}\right) + \omega_2\frac{\eta}{m}\laplacian\frac{J_1}{n_0} = \omega_2\gamma J_1 + \frac{\omega_2}{r}\left(\frac{2J_0J_1}{n_0}\right),
+	\end{equation}
+	\begin{equation}
+	\label{eq:imagPart}
+	2\omega_1 \omega_2 J_1 + \omega_1\pdv{r}(\frac{2J_0J_1}{n_0}) - \omega_1\frac{\eta}{m}\laplacian\frac{J_1}{n_0} = -\omega_1 \gamma J_1 - \frac{\omega_1}{r}\left(\frac{2J_0J_1}{n_0}\right).
+	\end{equation}
+	
+	
+	\subsection{Real Part}
+	Let's look at just the real part of the equation, Equation (\ref{eq:realPart}). We will see later that the \textit{imaginary} component of $\omega$, $\omega_2$, is actually itself first order in the parameters $\eta$, $\gamma$, $v_0$.  That means that when $\omega_2$ is raised to a higher power or multiplied by any of the parameters, the term is quadratic and can be neglected.  Luckily, that is enough to simplify Equation (\ref{eq:realPart}) to a solvable state:
+	\begin{align}
+	&\omega_1^2J_1 + v_s^2\pdv{r}\left(\pdv{J_1}{r} + \frac{J_1}{r}\right) = 0 \nonumber \\
+	&\implies \pdv[2]{J_1}{r} + \frac{1}{r}\pdv{J_1}{r} - \frac{J_1}{r^2} + \frac{\omega_1^2}{v_s^2}J_1 = 0 \nonumber \\
+	&\implies r^2\pdv[2]{J_1}{r} + r\pdv{J_1}{r} + \left(r^2\frac{\omega_1^2}{v_s^2} - 1 \right)J_1 = 0.
+ 	\end{align}
+ 	This is \textit{Bessel's Equation}, and we can write the solution in terms of \textit{Bessel Functions} of the first and second kinds:
+ 	\begin{equation}
+ 	J_1(r) = A \mathcal{J}_1\left(\frac{\omega_1r}{v_s}\right) + B \mathcal{Y}_1\left(\frac{\omega_1r}{v_s}\right)
+ 	\end{equation}
+ 	where $A$ and $B$ are to be determined by the boundary conditions.  The notation is bad since the Bessel functions of the first kind are usually called $J_\nu$, but I already use $J$ for the current --- so I use the script letters for the Bessel Functions.  It's hard to go further than this analytically without making more assumptions.  There might be a nice solution in terms of the roots of the Bessel functions.
+ 	
+ 	Now --- this would probably have been easier to see if I had non-dimensionalized everything earlier, but since the characteristic length scale of the problem is $L \equiv R_2 - R_1$, and because for us $R_1 < r < R_2$ is the physical domain, we can say that $r$ is large compared to the length scale of the problem as long as $R_1/L \gg 1$.  Working in that assumption, I think we can argue that the arguments of the functions $\mathcal{J}$ and $\mathcal{Y}$ are large, and that means we could try to use an asymptotic form of the Bessel functions for large arguments.  In our specific case, we have the asymptotic forms:
+ 	\begin{equation}
+ 	\begin{aligned}
+ 		\mathcal{J}_1(x) &\thicksim \sqrt{\frac{2}{\pi x}}\cos(x - 3\pi / 4) + \mathrm{O}\left( \frac{1}{x}\right), \\
+ 		\mathcal{Y}_1(x) &\thicksim \sqrt{\frac{2}{\pi x}}\sin(x - 3\pi / 4) + \mathrm{O}\left( \frac{1}{x}\right).
+ 	\end{aligned}
+ 	\end{equation}
+ 	Throwing away the last terms (too small!) would make this look much nicer for applying the boundary conditions.  What are the boundary conditions?  They are:
+ 	\begin{align*}
+ 	J_1(R_2) &= 0, \\
+ 	\pdv{J_1}{r} \left(R_1\right) &= \frac{n_0 v_0 R_2}{R_1^2}e^{+\mathrm{i}\omega t}.
+ 	\end{align*}
+ 	The second one is a little weird.  I think it's right though because the steady-state solution is $J_0(r) = \frac{n_0v_0R_2}{r}$, so it doesn't actually obey the Neummann condition, meaning the $J_1$ term should account for this, making the total solution agree with the boundary condition at all times $t$... I'm not sure if it's a bigger problem.  Either way, I'm going to neglect this term because of the factor $v_0$ in the numerator and the effective factor of $1 / R_1$ that is large compared to the length scale of the problem.  That leads to pretty much homogeneous boundary conditions, and so we're trying to find the solution to the following system, where I neglected the phase shift in the arguments of the trig. functions for brevity (we'll see it doesn't matter anyway): 
+ 	\begin{equation}
+ 	\begin{aligned}
+ 	A\cos\left( \frac{\omega_1R_2}{v_s}\right) + B \sin\left( \frac{\omega_1R_2}{v_s}\right) &= 0, \\
+ 	A\left[ -\frac{1}{2 R_1}\cos\left( \frac{\omega_1R_1}{v_s}\right) - \frac{\omega_1}{v_s}\sin\left( \frac{\omega_1R_1}{v_s}\right)\right] + B \left[-\frac{1}{2R_1}\sin\left( \frac{\omega_1R_1}{v_s}\right) + \frac{\omega_1}{v_s}\cos\left( \frac{\omega_1R_1}{v_s}\right) \right] &= 0.
+ 	\end{aligned}
+ 	\end{equation}
+ 	To find a nontrivial solution, we set the determinant of the thing equal to $0$ and recognize some trigonometric identities to get:
+ 	\begin{align}
+ 	\frac{\omega_1}{v_s}\cos\left( \frac{\omega_1}{v_s} (R_2 - R_1)\right) + \frac{1}{2R_1}\sin\left(\frac{\omega_1}{v_s} (R_2 - R_1) \right) &= 0 \nonumber \\
+ 	\implies  \tan\left( \frac{\omega_1}{v_s} (R_2 - R_1) \right) &= \frac{-2 \omega_1R_1}{v_s} \nonumber \\
+ 	\implies \tan \left( \frac{\omega_1 L}{v_s}\right) &= -\frac{-2 \omega_1 R_1}{v_s} \nonumber
+ 	\end{align}
+ 	which leads to:
+ 	\begin{align*}
+ 	\frac{\omega_1 L }{v_s} &= \left|\arctan(\frac{-2 \omega_1 R_1}{v_s})\right| \\
+ 	&= \arctan(\frac{2 \omega_1 R_1}{v_s}).
+ 	\end{align*}
+ 	For this part of the frequency, I'm only really interested in the magnitude, hence the absolute value. $(-\pi/2, \pi / 2)$. As a sanity check, it's nice to note that if we let $R_1 \rightarrow \infty$, we get $\omega_1 = \frac{\pi v_s}{2L}$, which agrees with the result in Mendl et al. in the Cartesian geometry.  But we want to do a little bit better, so we can use an asymptotic expansion of $\arctan$ for large arguments:
+ 	\[\arctan(x) \thicksim \frac{\pi}{2} - \arctan(\frac{1}{x}) \thicksim \frac{\pi}{2} - \frac{1}{x} + \mathrm{O} \left( \frac{1}{x^2} \right) \]
+ 	where we took a Taylor expansion to get the last expression. So then we get:
+ 	\[ \frac{\omega_1L}{v_s} = \frac{\pi}{2} - \frac{v_s}{2 \omega_1R} \]
+ 	\[ \omega_1^2 \frac{2 R_1L}{v_s} = \omega_1 R_1 \pi - v_s \]
+ 	\[ \omega_1^2 - \frac{\pi \omega_1v_s}{2 L} + \frac{v_s^2}{2 R_1 L} = 0\]
+ 	\begin{align}
+ 	\label{eq:realResult}
+	\implies \omega_1 &= \frac{1}{2}\left( \frac{\pi v_s}{2L} \pm \sqrt{\frac{v_s^2 \pi^2}{4L^2} - 2 \frac{v_s^2}{R_1 L}}\right) \nonumber \\
+	\implies \omega_1 &= \frac{\pi v_s}{4 L}\left(1 +  \sqrt{1 - \frac{8 \mathcal{R}}{\pi ^ 2}} \right). 
+ 	\end{align}
+ 	Equation (\ref{eq:realResult}) shows the frequency should decrease as the ratio $\mathcal{R}$ is increased, at least for small values of $\mathcal{R}$.  Note that the positive square root was selected to enforce consistency with previous equations that show that in the limit of small $\mathcal{R}$, the frequency should approach $\frac{\pi v_s}{2L}$.
+ 	
+ 	\subsection{Imaginary Part}
+ 	Let's consider now the imaginary part (\ref{eq:imagPart}).  We can divide out the $\omega_1$ and also define $\nu = \eta/(n_0 m)$, and recall that $J_0 = n_0 v_0 R_2 / r$, giving:
+ 	
+ 	\[ 2\omega_2J_1 + \pdv{r}(\frac{2J_0J_1}{n_0}) - \nu \laplacian{J_1} = -\gamma J_1 - \frac{1}{r} \frac{2J_0J_1}{n_0} \]
+ 	\[ \implies 2\omega_2 J_1 + \frac{2 v_0}{r}\pdv{J_1}{r}  - \nu \left( \pdv[2]{J_1}{r} + \frac{1}{r}\pdv{J_1}{r}\right) + \gamma J_1 = 0 \]
+ 	\begin{equation}
+ 	\label{eq:imagEquation}
+ 	\implies r\pdv[2]{J_1}{r} + \left(1 - \frac{2v_0R_2}{\nu}\right)\pdv{J_1}{r} - \frac{1}{\nu}r(2\omega_2 + \gamma)J_1=0
+ 	\end{equation}
+ 	The solutions to this are again given in terms of the \textit{Bessel Functions}:
+ 	\begin{equation}
+ 	J_1(r) = r^{R_2v_0/\nu} \left[ A \mathcal{J}_\alpha \left( kr \right) + B \mathcal{Y}_\alpha \left( kr \right) \right],
+ 	\end{equation}
+ 	where:
+ 	\begin{equation}
+ 	\alpha = R_2v_0/\nu,\ \  k = \sqrt{-\left( \frac{\gamma + 2\omega_2}{\nu} \right)}.
+ 	\end{equation}
+ 	These are just defined for convenience. The order $\alpha$ of the Bessel functions turns out not to matter... we'll see!  Just as before, we'll use the asymptotic expansion where the Bessel functions look kind of like sines and cosines with a constant phase shift.  I suppress this phase shift because it disappears just like it did before.
+ 	\begin{equation}
+ 	J_1(r) = r^{\frac{R_2v_0}{\nu}} \left[ A\sqrt{\frac{2}{\pi r}}\cos(kr) + B\sqrt{\frac{2}{\pi r}}\sin(kr) \right].
+ 	\end{equation}
+ 	Time now to apply the boundary conditions.  That means solving the equations:
+ 	\begin{equation}
+ 	\begin{aligned}
+ 		A\cos(kR_2) + B\sin(kR_2) &= 0, \\
+ 		A \left( \left( \frac{R_2v_0}{\nu} - \frac{1}{2} \right)\frac{1}{R_1}\cos(kR_1) - k \sin(kR_1) \right) + B \left( \left(\frac{R_2v_0}{\nu} - \frac{1}{2} \right)\sin(kR_1) + k \cos(kR_1) \right) &= 0.
+ 	\end{aligned}
+ 	\end{equation}
+ 	Just as before, we set the determinant to $0$ (recognizing some trig. identities again, this is how the phase shifts disappear):
+ 	\begin{equation}
+ 	k\cos(kL) - \left(\frac{R_2v_0}{\nu} -\frac{1}{2}\right)\frac{1}{R_1}\sin(kL) = 0,
+ 	\end{equation}
+ 	where $L \equiv R_2 - R_1$ as before.  This means:
+ 	\[\tan(kL) = \frac{kR_1}{\frac{R_2v_0}{\nu} - \frac{1}{2}}\],
+ 	which we expand in the same way as previously and end up with the equation:
+ 	\[kL = \pi n + \frac{kR_1}{\frac{R_2v_0}{\nu} - \frac{1}{2}}\]
+ 	\[k^2\left(1 - \frac{kR_1 / L}{\frac{R_2v_0}{\nu} - \frac{1}{2}} \right)^2 = \frac{\pi^2 n^2}{L^2}\]
+ 	
+ 	
+\end{document}
+
+
