@@ -5,10 +5,8 @@ Reference [1] reports hydrodynamic electrons subject to unusual *Dyakonov - Shur
 This folder has a python notebook that solves the equation from [1] in an infinite rectangular channel.  This reproduces the results of [1].
 
 ## corbino-geometry
-This folder has some scripts and notebooks that explore the Dyakonov-Shur instability in an annular geometry.  This folder is a work in progress.  Cleaned up version of the `annular-geometry` folder.
+This folder has some scripts and notebooks that explore the Dyakonov-Shur instability in an annular geometry.  This folder is a work in progress. I kept all my reports and slides over the course of the project, but a lot of these are incorrect as we come to understand the problem better.  Still, I think it's better to keep them all around for posterity.
 
-## annular-geometry
-Older version on `corbino-geometry` folder.
 
 ## References
 1. Mendl, C. B., Polini, M., & Lucas, A. (2019). Coherent Terahertz Radiation from a Nonlinear
