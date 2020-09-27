@@ -1,0 +1,109 @@
+% Preamble --------------------------------------------------------------------
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks]{hyperref}
+\usepackage{subcaption}
+\captionsetup{font=footnotesize}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{newtxtext, newtxmath}
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+\usepackage[export]{adjustbox}
+\usepackage[english]{babel}
+
+\title{The Dyakonov-Shur Instability in a Corbino Geometry}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\section{Equations}
+We model electrons in the disk $a < r < b$ subject to a steady radial electric field $\vb{E}=E(r)\vu{r}$.  Also let $\eta$ be the shear viscosity, $\gamma$ be the momentum relaxation rate, $-e$ be the charge of the electron, and $m$ be its effective mass.  We assume radially symmetric $n = n(r,t)$ and $\vb{J}=J(r,t)\vu{r} \equiv n(r,t)u(r,t)\vu{r}$, and we use the equation of state for an idea gas, giving a pressure $p = v_s n$ where $v_s$ is a density-independent speed of sound.  These assumptions lead to the hydrodynamic equations:
+
+\begin{subequations}
+\label{eq:equations1}
+\begin{equation}
+    \label{eq:momentum_equation1}
+    \pdv{J}{t}+\frac{1}{r} \pdv{r}(r\frac{J^2}{n})+v_s\pdv{n}{r}-\eta\left(\pdv[2]{r}+\frac{1}{r}\pdv{r}-\frac{1}{r^2}\right)\frac{J}{n}=\frac{-ne}{m}E(r) - \gamma J,
+\end{equation}
+\begin{equation}
+\label{eq:mass_equation1}
+    \pdv{n}{t}+\frac{1}{r}\pdv{r}(rJ)=0.
+\end{equation}
+\end{subequations}
+These are subject to the boundary conditions:
+\begin{subequations}
+\label{eq:BCs}
+    \begin{equation}
+        n(a)= n_a,
+    \end{equation}
+    \begin{equation}
+         v(b) = v_b,
+    \end{equation}
+\end{subequations}
+with $n_a$ and $v_b$ both constants.
+
+Now we ask the question: What functional form of external $E(r)$ would we need to apply in order to admit a reasonable steady-state solution $\left(\pdv{n_0(r)}{t}=\pdv{J_0(r)}{t}=0\right)$?  In free electron theory, the equation of motion is the simpler:
+\begin{equation*}
+    \pdv{J}{t} = \frac{-ne}{m}E(r) - \gamma J.
+\end{equation*}
+This gives the steady state balance $\gamma J = -neE$.  Then $nE$ and $J$ will need to have the same spatial dependence, which means $E$ and $u$ should have the same spatial dependence.  If the $E$ field is going to be produced by an external source, it should have $\div \vb{E}=0$, so $E \propto 1 / r$.  Then $u_0(r) \propto 1/r$, and from (\ref{eq:mass_equation1}) when $\pdv{n}{t}=0$, we must have that $J_0(r)\propto 1 / r$, making $n_0=\mathrm{constant}$. To satisfy the boundary conditions (\ref{eq:BCs}), we should have the steady state distribution for velocity $u_0(r)=v_b b/r$ and for the density $n_0(r)=n_a$.  Then for $E(r)$, we get:
+
+\begin{equation}
+    \label{eq:E1}
+    E(r) = -\frac{\gamma m b v_b}{er}
+\end{equation}
+
+For the more complicated hydrodynamic theory of (\ref{eq:momentum_equation1}), the steady state solution for $u_0(r)$ does not quite work.  While $u_0(r)\propto1/r$ does solve the viscous term, the convection term $\pdv{r}(rJ^2/n)$ is nonzero.  To account for this leftover, the electric field would have to have another component:
+
+\begin{equation}
+    \label{eq:Efield_option2}
+    E = \frac{-mv_0 b}{er}\left(\gamma + \frac{v_0b^2}{r^2}\right)
+\end{equation}
+b
+
+
+\begin{equation}
+    \label{eq:balance}
+    n_0 u_0 \pdv{u_0}{r}-\eta\left(\pdv[2]{u_0}{r}+\frac{1}{r}\pdv{u_0}{r}-\frac{u_0}{r^2}\right)=-\frac{n_0e}{m}E-\gamma(n_0u_0).
+\end{equation}
+One way to guess a solution is to try and The viscous term admits two independent solutions: $u_0\propto 1/r$ or $u_0 \propto r$.  In the latter case, if $u_0=c_2r$, we see that:
+\begin{equation*}
+    E = \frac{-m}{e} \left( c_2^2 + \gamma c_2  \right)r.
+\end{equation*}
+Applying a field with $E \propto r$ like this is not easy practically given the other features our device must satisfy --- the whole apparatus would have to be immersed in a long cylinder of constant volume charge density.  Further, $u_0 \propto r$ would require $n_0 \propto 1/r^2$ by Equation (\ref{eq:mass_equation1}).  If, however, we take the other possibility, $u_0 = c_1/r$, we obtain for the electric field:
+
+and $n_0$ just a constant.  The boundary conditions (\ref{eq:BC_momentum}) gives $c_1=v_0b$.  Then, defining $L \equiv b-a$ at and letting $L/a \rightarrow 0$ with $L$ fixed, we find that the second term of Equation (\ref{eq:Efield_option2}) is the larger contribution.  An electric field $E \propto 1/r$ is more reasonable practically since it does not require any set charge density in the region, as it satisfies $\div(E\vu{r})=0$. With the motivation that an electric field of this form comes close to creating a steady state, we study the equations (\ref{eq:equations1}) with the simplified electric field:
+
+\begin{equation}
+    \label{eq:simpleE}
+    E = \frac{-m\gamma b v_0}{e}\frac{1}{r}.
+\end{equation}
+
+Finally, we write the equations in ``conservation form", using as a variable $J\equiv nu$ instead of u.  We also bring the equations into a non-dimensional form, scaling the spatial variables with $b\rightarrow b/L$, $a \rightarrow a/L$, $r \rightarrow r/L$.  We also introduce dimensionless versions of the other parameters, $\eta \rightarrow $ the equations (\ref{eq:equations1}) become:
+\begin{subequations}
+\label{eq:equations}
+\begin{equation}
+    \label{eq:momentum_equation}
+    n\pdv{u}{t}+nu\pdv{u}{r}+v_s\pdv{n}{r}-\eta\left(\pdv[2]{u}{r}+\frac{1}{r}\pdv{u}{r}-\frac{u}{r^2}\right)=\gamma \left(n\frac{v_0b}{r} - nu\right),
+\end{equation}
+\begin{equation}
+\label{eq:mass_equation}
+    \pdv{n}{t}+\frac{1}{r}\pdv{r}(rnu)=0,
+\end{equation}
+\end{subequations}
+subject again to the boundary conditions (\ref{eq:BCs}).  Note that using the expression (\ref{eq:simpleE}) is the same as assuming that the balance in (\ref{eq:balance}) comes only from the momentum relaxation and the external electromagnetic force, in other words, neglecting convection.
+
+\section{Linear Theory}
+
+
+
+
+
+\end{document}

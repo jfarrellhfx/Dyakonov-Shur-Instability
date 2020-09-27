@@ -1,0 +1,60 @@
+\section{Deriving the Complex Frequency}
+To investigate the instability of the ``steady state" described above, we write the momentum $J = J_0(r) + J_1(r)e^{-\mathrm{i}\omega t}$ (a combination of the DC steady state and a small AC component), and the density $n(r) = n_0(r) + n_1(r)e^{-\mathrm{i}\omega t}$.  We put these expressions into (\ref{eq:equations}), keeping only up to the first order in $J_1$ and $n_1$.  We also drop terms that are second order or higher as products of any of the parameters $v_0$, $\eta$, and $\gamma$ --- because we use the simplified electric field ($\ref{eq:E1}$), working to this low order is necessary to get a nice, homogenous eigenvalue problem.  Otherwise, the steady-state solutions $J_0\equiv n_av_b b/r$ and $n_0\equiv{n_a}$ would not fully ``cancel out".  With this assumption, we obtain the system of linear equations:
+\begin{subequations}
+	\label{eq:linearEquations}
+	\begin{equation}
+	\label{eq:linearMomentum}
+	-\mathrm{i}\omega J_1 + \frac{2b v_b}{r}\pdv{J_1}{r} + v_s\pdv{n_1}{r} + \frac{\eta}{m n_a}\left(\pdv[2]{r}+\frac{1}{r}\pdv{r} -\frac{1}{r^2}\right)J_1 = -\gamma J_1,
+	\end{equation}
+	\begin{equation}
+	\label{eq:linearMass}
+	-\mathrm{i}\omega n_1 + \pdv{J_1}{r}+\frac{J_1}{r}=0.
+	\end{equation}
+\end{subequations}
+We can then substitute for $n_1$ in (\ref{eq:linearMomentum}) using (\ref{eq:linearMass}). That gives the following homogeneous ordinary differential equation for $J_1$, where we have defined $\nu\equiv \eta/n_a m$:
+\begin{equation}
+\label{eq:mainODE}
+\left(\nu +\frac{1}{\mathrm{i}\omega}\right)\pdv[2]{J_1}{r}+\left(\frac{2v_b b}{r}+\frac{\nu}{r}+\frac{1}{\mathrm{i}\omega r}\right)\pdv{J_1}{r} + \left(-\mathrm{i}\omega+\gamma+\frac{-\nu}{r^2}+\frac{1}{-\mathrm{i}\omega r^2}\right)J_1=0.
+\end{equation}
+We must solve this equation numerically for the spectrum of (complex) frequencies $\omega$, imposing the boundary conditions ($\ref{eq:BCs}$).
+
+\subsection{Limiting Case}
+If we limit ourselves to cases where the ratio $(b-a)/a\equiv L/a$ is very small, so that the domain is almost rectangular, then we may pursue a solution to Equation (\ref{eq:mainODE}) analytically in a couple of ways.
+\subsubsection{Option 1}
+One na\"{i}ve approach is to approximate (\ref{eq:mainODE}) as a \textit{constant-coefficient} equation.  That is, we can take $r\approx a \approx b$.  Since we are already making this assumption, we may as well also disregard terms $\propto 1 / r^2$ --- this is because $b-a \equiv L$ is the problem's length scale,and if $L/a$ is small, $r$ will have to be large compared to the problem's length scale.  That gives a simpler ordinary differential equation:
+\begin{equation*}
+\left(\nu +\frac{1}{\mathrm{i}\omega}\right)\pdv[2]{J_1}{r}+\left(2v_b+\frac{\nu}{b}+\frac{1}{\mathrm{i}\omega b}\right)\pdv{J_1}{r} + \left(-\mathrm{i}\omega+\gamma\right)J_1=0.
+\end{equation*}
+Now we will solve for the real and complex parts of $\omega\equiv \omega_1 + \mathrm{i} \omega_2$ separately.  The imaginary part $\omega_2$ will obey the differential equation:
+\begin{equation*}
+\nu \pdv[2]{J_1}{r}+\left(2v_b+\frac{\nu}{b}\right)\pdv{J_1}{r} - \left(\omega_2 + \gamma \right)J_1 = 0.
+\end{equation*}
+This equation is obtained by multiplying the previous equation by $\omega$, taking the imaginary part of the equation, and dividing out a common factor of $\omega_1$.  From here, dividing out $\nu$, we see the equation has the form:
+\[ \pdv[2]{J_1}{r} + B\pdv{J_1}{r} - CJ_1=0,\]
+and we can get two linearly independent solutions.  Let's define:
+\[ \mu \equiv B/2, \]
+\[ k \equiv \frac{1}{2}\sqrt{-B^2 -4C},\]
+which makes the two linearly independent solutions:
+\[ y_1(r)=c_1 e^{\mu r}\cos(k r),\]
+\[ y_2(r)=c_2 e^{\mu r} \sin(k r ).\]
+Now, we can try to impose the boundary conditions to get a spectrum of values for $k$ (related to $C$, which is related to $\omega_2$!).  The conditions $J_1(b)=0$ and $\left.\pdv{rJ}{r}\right|_{r=a} = 0$ give the two equations:
+
+\[ c_1 \cos(kb) + c_2 \sin(kb) = 0, \]
+\[  c_1\left( \left[\mu a + 1\right]\cos(ka) - ak\sin(ka) \right) + c_2\left(\left[\mu a + 1\right]\sin(ka) + ka \cos(ka) \right) = 0.\]
+At this point, we look for non-trivial solutions by setting the determinant equal to zero:
+\begin{align*}
+& \left(\mu a + 1\right)\left[\cos(ka)\sin(kb) - \cos(ka)\sin(kb)\right] + ka\left[\cos(ka)\cos(kb) + \sin(ka)\sin(kb) \right] = 0 \\
+&\implies \left(\mu a + 1 \right)\sin(k(b-a)) + ka\cos(b-a) = 0 \\
+&\implies \left(\mu a + 1 \right)\sin(kL) + ka \cos(kL) = 0 \\
+&\implies \tan(kL) = \frac{-kL}{\mu a + 1}.
+\end{align*}
+It's not so easy to tell, but the expression on the right hand side will be very large. With that in mind, we use an asymptotic form of $\arctan$, giving:
+\[kL \approx \frac{\pi}{2} - \frac{\mu a + 1}{kL} + n\pi,\]
+(where $\tilde{l}$ is an integer) and eventually leading to:
+
+\begin{align*}
+&k^2 - k \frac{1}{L}\left(\frac{\pi}{2} + \tilde{l}\pi \right) + \left(\frac{\mu a + 1}{L^2}\right)  = 0 \\
+& \implies k = \frac{\pi}{2L} + \frac{\tilde{l} \pi}{L} - \sqrt{\left(\frac{\pi}{2}\right)^2 - 4\left( \frac{\mu a + 1}{L^2} \right)}  \\
+& \implies k \approx  \frac{\}{}
+\end{align*}
+
