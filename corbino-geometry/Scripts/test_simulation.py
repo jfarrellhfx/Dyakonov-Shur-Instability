@@ -9,5 +9,5 @@ import annular as annular
 import numpy as np
 import matplotlib.pyplot as plt
 
-t_list, n_list, J_list = annular.simulation(ratio = 0.001, v0 = 0.5, eta = 0.03, gamma = 0.1)
-np.savetxt("test3.txt", n_list)
+n_list, J_list = annular.simulation(ratio = 0.001, v0 = 0.26, eta = 0.03, gamma = 0.1)
+np.savetxt("test1.txt", n_list)
