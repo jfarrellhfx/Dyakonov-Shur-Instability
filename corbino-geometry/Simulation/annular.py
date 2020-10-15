@@ -18,6 +18,7 @@ delta = config.delta
 imageLog = config.imageLog # if True, shows some figure
 saveFigures = False #if True, saves pdfs of all figures
 
+old_time = 0
 
 # Helper Functions ----------------------------------------------------------------------------------------------------|
 def minmod(a, b):
@@ -195,7 +196,7 @@ def flux(uL, uR, UL, UR):
     # The high resolution correction to the flux:
     additionalFlux = 1 / 2 * (w1 * (np.sign(k * w1 / h) - k * w1 / h) * h * sigma1 + w2 * (np.sign(k * w2/ h) - k * w2 / h) * h * sigma2)
 
-    F = fG + additionalFlux
+    F = fG + 0 *additionalFlux
 
     return F
 
@@ -233,6 +234,8 @@ def simulation(ratio = 0.0, v0 = 0.0, eta = 0.0, gamma =0.0):
 
     # like to do computations at midpoints for finite volume methods
     rMid = r + h / 2.
+    R1 = R1
+    R2 = R2
 
     # We want to input v_a, the steady state velocity at the inner radius.  But
     # we are fixing the momentum on the outer radius.  So we convert the inner
@@ -258,11 +261,11 @@ def simulation(ratio = 0.0, v0 = 0.0, eta = 0.0, gamma =0.0):
 
     #Set up initial conditions as little perturbations on the steady state.
 
-    perturb = 0.2
+    perturb = 0.01
     n0 = 1. + perturb * np.sin(np.pi*(rMid-R1))
     J0 = v0 * (1.0 + 0 * np.cos(np.pi*(rMid - R1)/2)) * R2 / rMid
 
-    u = np.vstack((n0, J0)).T
+    u = np.copy(np.vstack((n0, J0)).T)
 
     #Storage
     J_list = []
@@ -284,28 +287,41 @@ def simulation(ratio = 0.0, v0 = 0.0, eta = 0.0, gamma =0.0):
     switched = False
     k0 = k
     # Main loop!
-    while time < T:
 
+    switched = False
+    store = True
+    count = 0
+    while N < 1e6:
         # Pick a time step based on the maximum velocity.  If it gets too high,
         # need to drastically reduce time step or it becomes unstable.  But note
         # that we will still always ***save*** data
-        if np.max(u[:,1] / u[:,0]) > 1.5:
-            switched = True
 
-        if switched == True:
-            k = 0.0001
-        else:
-            k = 0.001
+        k = k0
+        if np.max(u[:,1]/u[:,0]) >= 2 or (count < 10 and count > 0):
+            k = k0 /10
+            store = False
+            count += 1
+        if count == 10:
+            count = 0
+            store = True
+
+
+
+
+
+
+
 
         # First part of the Strang Splitting - integrate the relaxation term
         # up to dt / 2
-        u1 = u + k / 4 * relaxationStep(u)
-        u = u + k / 2 * relaxationStep(u1)
+        u1 = np.copy(u + k / 8 * relaxationStep(u))
+        u = np.copy(u + k / 2 * relaxationStep(u1))
 
         # Set Boundary Conditions
-        uLeft = np.array([[1, u[2,1]*rMid[2]/rBC[0]], [1, u[1,1]*rMid[1]/rBC[1]]])
-        uRight = np.array([[u[-1, 0], v0], [u[-1, 0], v0]])
-        uBC = np.vstack((uLeft, u, uRight))
+        uLeft = np.copy(np.array([[1, u[2,1]*rMid[2]/rBC[0]], [1, u[0,1]*rMid[0]/rBC[1]]]))
+        #uLeft = np.array([[1, u[2, 1] * rMid[2] / rBC[0]], [1, u[0, 1]]])
+        uRight = np.copy(np.array([[u[-1, 0], v0], [u[-1, 0], v0]]))
+        uBC = np.copy(np.vstack((uLeft, u, uRight)))
         q = uBC[:,1]/uBC[:,0]
 
         U = np.copy(u)
@@ -325,18 +341,16 @@ def simulation(ratio = 0.0, v0 = 0.0, eta = 0.0, gamma =0.0):
         u = np.copy(U)
 
         # Second step of Strang Splitting, same integration
-        u1 = u + k / 4 * relaxationStep(u)
-        u = u + k / 2 * relaxationStep(u1)
+        u1 = np.copy(u + k / 4 * relaxationStep(u))
+        u = np.copy(u + k / 2 * relaxationStep(u1))
 
         # Store Data:
         # if we have switched to the lower timestep, save data only every 10
         # iterations.  Otherwise, save data every iteration.
-        if switched and N % 10 == 0:
+        if store:
             J_list.append(np.copy(u[:, 1]))
             n_list.append(np.copy(u[:, 0]))
-        elif not switched:
-            J_list.append(np.copy(u[:, 1]))
-            n_list.append(np.copy(u[:, 0]))
+
 
         # Log Progress
         if N % 1000 == 0:
@@ -358,6 +372,8 @@ def simulation(ratio = 0.0, v0 = 0.0, eta = 0.0, gamma =0.0):
 
         N += 1
         time += k
+
+
 
 
 

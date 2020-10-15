@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="390455c8-db6f-4847-9a7d-939daf04bb00" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Scripts/Analysis/.ipynb_checkpoints/power-checkpoint.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scripts/brightside.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scripts/test1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Simulation/DS_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/Analysis/power.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Analysis/power.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Reports/~$quick_update.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/brightside.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/brightside.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/test1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scripts/test_simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/test_simulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/DS_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/DS_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/annular.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/annular.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,11 +43,58 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.test_simulation">
+    <configuration name="DS_config" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="corbino-geometry" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Simulation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Simulation/DS_config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="annular" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="corbino-geometry" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Simulation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Simulation/annular.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_simulation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="corbino-geometry" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scripts" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -67,8 +115,8 @@
         <item itemvalue="Python.test_simulation" />
         <item itemvalue="Python.test_simulation" />
         <item itemvalue="Python.test_simulation" />
-        <item itemvalue="Python.test_simulation" />
-        <item itemvalue="Python.test_simulation" />
+        <item itemvalue="Python.annular" />
+        <item itemvalue="Python.DS_config" />
       </list>
     </recent_temporary>
   </component>
@@ -83,6 +131,18 @@
       <option name="presentableId" value="Default" />
       <updated>1601221760604</updated>
       <workItem from="1601221765493" duration="1383000" />
+      <workItem from="1601262397295" duration="1160000" />
+      <workItem from="1601303633434" duration="18000" />
+      <workItem from="1601309280106" duration="8218000" />
+      <workItem from="1601392207778" duration="8153000" />
+      <workItem from="1601421628513" duration="2764000" />
+      <workItem from="1601424584034" duration="7258000" />
+      <workItem from="1601434270619" duration="3974000" />
+      <workItem from="1601439342022" duration="1345000" />
+      <workItem from="1601472342571" duration="15000" />
+      <workItem from="1602686581187" duration="16332000" />
+      <workItem from="1602730054713" duration="2420000" />
+      <workItem from="1602774183937" duration="370000" />
     </task>
     <servers />
   </component>
@@ -94,7 +154,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
